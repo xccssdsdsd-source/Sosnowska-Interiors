@@ -358,6 +358,14 @@ nav.scrolled {
   margin-top: 16px;
   color: var(--text-primary);
 }
+.o-nas-company-name {
+  margin-top: 12px;
+  font-size: 1rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  font-weight: 500;
+}
 
 .o-nas-right {
   padding-top: 8px;
@@ -738,7 +746,7 @@ nav.scrolled {
   color: var(--accent);
 }
 
-.kontakt-item-text { display: flex; flex-direction: column; gap: 4px; filter: blur(3px); user-select: none; pointer-events: none; }
+.kontakt-item-text { display: flex; flex-direction: column; gap: 4px; }
 .kontakt-item-label {
   font-family: 'Inter', sans-serif;
   font-weight: 500;
@@ -771,9 +779,6 @@ nav.scrolled {
   color: var(--text-primary);
   outline: none;
   resize: none;
-  filter: blur(3px);
-  user-select: none;
-  pointer-events: none;
 }
 
 .form-field textarea { height: 100px; }
@@ -805,9 +810,6 @@ nav.scrolled {
 
 .btn-submit span {
   display: block;
-  filter: blur(3px);
-  user-select: none;
-  pointer-events: none;
 }
 
 /* ─── FOOTER ─── */
@@ -880,6 +882,90 @@ footer {
   color: rgba(245, 240, 232, 0.3);
   letter-spacing: 0.05em;
 }
+
+/* ─── LIGHTBOX ─── */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(20, 17, 14, 0.95);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.lightbox.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.lightbox-img {
+  max-width: 90vw;
+  max-height: 88vh;
+  object-fit: contain;
+  display: block;
+  transform: scale(0.95);
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 2px;
+}
+
+.lightbox.active .lightbox-img {
+  transform: scale(1);
+}
+
+.lightbox-close {
+  position: absolute;
+  top: 28px;
+  right: 36px;
+  background: none;
+  border: none;
+  color: rgba(255,255,255,0.6);
+  font-size: 32px;
+  cursor: pointer;
+  line-height: 1;
+  padding: 4px 8px;
+  transition: color 0.2s;
+}
+
+.lightbox-close:hover { color: #fff; }
+
+.lightbox-prev,
+.lightbox-next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.15);
+  color: rgba(255,255,255,0.7);
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.lightbox-prev { left: 28px; }
+.lightbox-next { right: 28px; }
+.lightbox-prev:hover, .lightbox-next:hover { background: rgba(255,255,255,0.18); color: #fff; }
+
+.lightbox-counter {
+  position: absolute;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  color: rgba(255,255,255,0.35);
+  text-transform: uppercase;
+}
+
+.portfolio-tile { cursor: zoom-in; }
 
 /* ─── SCROLL REVEAL ─── */
 .reveal { }
@@ -972,6 +1058,7 @@ footer {
         <span class="label">02 — O studio</span>
       </div>
       <h2>O nas</h2>
+      <p class="o-nas-company-name">Sosnowska Interiors</p>
     </div>
     <div class="o-nas-right reveal">
       <div class="blur-block">
@@ -1180,6 +1267,14 @@ footer {
   </div>
 </footer>
 
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true">
+  <button class="lightbox-close" id="lightboxClose" aria-label="Zamknij">&#x2715;</button>
+  <button class="lightbox-prev" id="lightboxPrev" aria-label="Poprzednie">&#8592;</button>
+  <img class="lightbox-img" id="lightboxImg" src="" alt="">
+  <button class="lightbox-next" id="lightboxNext" aria-label="Następne">&#8594;</button>
+  <div class="lightbox-counter" id="lightboxCounter"></div>
+</div>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
@@ -1301,6 +1396,72 @@ window.addEventListener('resize', () => {
   document.getElementById('portfolioTrack').style.transform = ''
   document.getElementById('portfolioProgressFill').style.width = '0%'
   initHorizontalScroll()
+})
+
+const lightbox = document.getElementById('lightbox')
+const lightboxImg = document.getElementById('lightboxImg')
+const lightboxCounter = document.getElementById('lightboxCounter')
+let lightboxImages = []
+let lightboxIndex = 0
+
+function collectImages() {
+  const imgs = document.querySelectorAll('.portfolio-tile-img img')
+  const seen = new Set()
+  lightboxImages = []
+  imgs.forEach(img => {
+    if (!seen.has(img.src)) {
+      seen.add(img.src)
+      lightboxImages.push(img.src)
+    }
+  })
+}
+
+function openLightbox(src) {
+  collectImages()
+  lightboxIndex = lightboxImages.indexOf(src)
+  if (lightboxIndex === -1) lightboxIndex = 0
+  showLightboxImage()
+  lightbox.classList.add('active')
+  document.body.style.overflow = 'hidden'
+}
+
+function closeLightbox() {
+  lightbox.classList.remove('active')
+  document.body.style.overflow = ''
+}
+
+function showLightboxImage() {
+  lightboxImg.src = lightboxImages[lightboxIndex]
+  lightboxCounter.textContent = (lightboxIndex + 1) + ' / ' + lightboxImages.length
+}
+
+document.querySelectorAll('.portfolio-tile').forEach(tile => {
+  tile.addEventListener('click', () => {
+    const img = tile.querySelector('.portfolio-tile-img img')
+    if (img) openLightbox(img.src)
+  })
+})
+
+document.getElementById('lightboxClose').addEventListener('click', closeLightbox)
+lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLightbox() })
+
+document.getElementById('lightboxPrev').addEventListener('click', e => {
+  e.stopPropagation()
+  lightboxIndex = (lightboxIndex - 1 + lightboxImages.length) % lightboxImages.length
+  showLightboxImage()
+})
+
+document.getElementById('lightboxNext').addEventListener('click', e => {
+  e.stopPropagation()
+  lightboxIndex = (lightboxIndex + 1) % lightboxImages.length
+  showLightboxImage()
+})
+
+document.addEventListener('keydown', e => {
+  if (!lightbox.classList.contains('active')) return
+  if (e.key === 'Escape') closeLightbox()
+  if (e.key === 'ArrowLeft') { lightboxIndex = (lightboxIndex - 1 + lightboxImages.length) % lightboxImages.length; showLightboxImage() }
+  if (e.key === 'ArrowRight') { lightboxIndex = (lightboxIndex + 1) % lightboxImages.length; showLightboxImage() }
 })
 </script>
 </body>
