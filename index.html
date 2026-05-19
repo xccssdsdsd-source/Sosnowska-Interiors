@@ -969,32 +969,73 @@ footer {
 }
 
 @media (max-width: 768px) {
-  nav { padding: 20px 24px; }
+  /* NAV */
+  nav { padding: 18px 20px; }
+  .nav-logo img { height: 36px; }
   .nav-links { display: none; }
   .hamburger { display: flex; }
+  .nav-overlay a { font-size: 32px; }
 
-  #start .hero-content { padding: 0 24px; }
-  .hero-scroll { right: 20px; }
+  /* HERO */
+  #start .hero-content { padding: 0 20px; max-width: 100%; }
+  #start .hero-content h1 { font-size: clamp(36px, 10vw, 52px); margin-bottom: 28px; }
+  .hero-buttons { gap: 12px; }
+  .hero-btn { padding: 14px 28px; font-size: 11px; }
+  .hero-section-label { display: none; }
+  .hero-scroll { right: 16px; bottom: 32px; }
 
-  #o-nas { padding: 80px 24px; }
-  .o-nas-grid { grid-template-columns: 1fr; gap: 40px; }
-  .o-nas-stats { grid-template-columns: 1fr; }
+  /* O NAS */
+  #o-nas { padding: 100px 20px 80px; }
+  .o-nas-grid { grid-template-columns: 1fr; gap: 36px; }
+  .o-nas-left .section-num { margin-bottom: 20px; }
+  .o-nas-right { padding-top: 0; }
+  .o-nas-para { font-size: 15px; }
+  .o-nas-quote { font-size: 19px; }
+  .o-nas-divider { margin: 24px 0 20px; }
+  .o-nas-stats {
+    grid-template-columns: 1fr;
+    margin: 60px auto 0;
+  }
+  .stat { padding: 32px 20px; }
+  .stat:nth-child(2),
+  .stat:nth-child(3) {
+    border-left: none;
+    border-top: 1px solid var(--border);
+  }
+  .stat-num { font-size: clamp(48px, 14vw, 64px); }
 
+  /* REALIZACJE */
   #realizacje { height: auto; overflow: visible; }
-  .portfolio-header { padding: 60px 24px 32px; }
+  .portfolio-header { padding: 80px 20px 28px; }
   .portfolio-viewport { display: none; }
   .portfolio-progress { display: none; }
-  .portfolio-mobile { display: flex; }
+  .portfolio-mobile { display: flex; padding: 0 20px 80px; gap: 16px; }
+  .portfolio-mobile .portfolio-tile { height: 380px; }
 
-  #oferta { padding: 80px 24px; }
-  .oferta-cards { grid-template-columns: 1fr; }
-  .oferta-card { padding: 36px 28px; }
+  /* OFERTA */
+  #oferta { padding: 100px 20px 80px; }
+  .section-header { margin-bottom: 48px; }
+  .oferta-cards { grid-template-columns: 1fr; gap: 16px; }
+  .oferta-card { padding: 36px 24px; }
+  .card-num { font-size: 44px; margin-bottom: 16px; }
 
-  #kontakt { padding: 80px 24px 60px; }
-  .kontakt-grid { grid-template-columns: 1fr; gap: 48px; }
+  /* KONTAKT */
+  #kontakt { padding: 100px 20px 60px; }
+  .kontakt-grid { grid-template-columns: 1fr; gap: 52px; }
+  .kontakt-info { gap: 28px; }
+  .form-field input,
+  .form-field textarea { font-size: 16px; }
+  .btn-submit { width: 100%; padding: 18px; text-align: center; }
 
-  footer { padding: 60px 24px 32px; }
+  /* FOOTER */
+  footer { padding: 64px 20px 32px; }
   .footer-grid { grid-template-columns: 1fr; gap: 40px; }
+  .footer-logo p { max-width: 100%; }
+
+  /* LIGHTBOX */
+  .lightbox-prev { left: 12px; }
+  .lightbox-next { right: 12px; }
+  .lightbox-img { max-width: 96vw; max-height: 80vh; }
 }
 </style>
 </head>
