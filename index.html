@@ -329,7 +329,7 @@ nav.scrolled {
 #o-nas {
   min-height: 90vh;
   background: var(--bg-primary);
-  padding: 120px 80px;
+  padding: 160px 80px;
 }
 
 .o-nas-grid {
@@ -371,78 +371,70 @@ nav.scrolled {
   padding-top: 8px;
 }
 
-.blur-block {
-  filter: blur(3px);
-  user-select: none;
-  pointer-events: none;
-  color: var(--text-primary);
-}
-
-.blur-block p {
+.o-nas-para {
   font-size: 16px;
   line-height: 1.8;
   color: var(--text-secondary);
-  margin-bottom: 20px;
+  filter: blur(6px);
+  user-select: none;
+  pointer-events: none;
 }
 
-.blur-block ul {
-  list-style: none;
-  margin-top: 8px;
+.o-nas-divider {
+  width: 64px;
+  height: 1px;
+  background: var(--border);
+  margin: 32px 0 24px;
 }
 
-.blur-block ul li {
-  font-size: 15px;
-  color: var(--text-secondary);
-  padding: 6px 0;
-  padding-left: 20px;
-  position: relative;
-}
-
-.blur-block ul li::before {
-  content: '—';
-  position: absolute;
-  left: 0;
-  color: var(--accent);
+.o-nas-quote {
+  font-family: 'Fraunces', serif;
+  font-weight: 300;
+  font-style: italic;
+  font-size: 22px;
+  color: var(--text-primary);
+  line-height: 1.5;
+  filter: blur(5px);
+  user-select: none;
+  pointer-events: none;
 }
 
 .o-nas-stats {
   max-width: 1200px;
-  margin: 80px auto 0;
+  margin: 120px auto 0;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 1px;
-  background: var(--border);
-  border: 1px solid var(--border);
 }
 
 .stat {
-  background: var(--bg-primary);
-  padding: 48px 40px;
+  background: transparent;
+  padding: 48px 32px;
+  border-top: 1px solid var(--border);
+}
+
+.stat:nth-child(2),
+.stat:nth-child(3) {
+  border-left: 1px solid var(--border);
 }
 
 .stat-num {
   font-family: 'Fraunces', serif;
   font-weight: 300;
-  font-size: 52px;
+  font-size: clamp(56px, 6vw, 80px);
   letter-spacing: -0.02em;
   color: var(--accent);
   line-height: 1;
-  margin-bottom: 8px;
-  filter: blur(3px);
-  user-select: none;
-  pointer-events: none;
+  margin-bottom: 0;
 }
 
 .stat-label {
   font-family: 'Inter', sans-serif;
   font-weight: 500;
   font-size: 11px;
-  letter-spacing: 0.15em;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--text-secondary);
-  filter: blur(3px);
-  user-select: none;
-  pointer-events: none;
+  margin-top: 16px;
 }
 
 /* ─── REALIZACJE ─── */
@@ -1061,30 +1053,15 @@ footer {
       <p class="o-nas-company-name">Sosnowska Interiors</p>
     </div>
     <div class="o-nas-right reveal">
-      <div class="blur-block">
-        <p>Studio Sosnowska Interiors specjalizuje się w kompleksowym projektowaniu wnętrz mieszkalnych i komercyjnych. Łączymy estetykę z funkcjonalnością, tworząc przestrzenie, które służą latami.</p>
-        <p>Każdy projekt poprzedzamy szczegółową analizą potrzeb klienta oraz charakteru przestrzeni. Dbamy o każdy detal wykończenia.</p>
-        <ul>
-          <li>Indywidualne podejście do każdego projektu</li>
-          <li>Pełna obsługa od koncepcji po realizację</li>
-          <li>Współpraca z najlepszymi wykonawcami</li>
-        </ul>
-      </div>
+      <p class="o-nas-para">Studio z pasją do detalu. Projektujemy wnętrza mieszkalne i komercyjne z indywidualnym podejściem do każdego klienta.</p>
+      <div class="o-nas-divider"></div>
+      <p class="o-nas-quote">Tworzymy przestrzenie szyte na miarę życia.</p>
     </div>
   </div>
   <div class="o-nas-stats reveal">
-    <div class="stat">
-      <div class="stat-num">12+</div>
-      <div class="stat-label">Lat doświadczenia</div>
-    </div>
-    <div class="stat">
-      <div class="stat-num">240+</div>
-      <div class="stat-label">Zrealizowanych projektów</div>
-    </div>
-    <div class="stat">
-      <div class="stat-num">98%</div>
-      <div class="stat-label">Zadowolonych klientów</div>
-    </div>
+    <div class="stat"><div class="stat-num">[XX]+</div><div class="stat-label">LAT DOŚWIADCZENIA</div></div>
+    <div class="stat"><div class="stat-num">[XXX]+</div><div class="stat-label">ZREALIZOWANYCH PROJEKTÓW</div></div>
+    <div class="stat"><div class="stat-num">[XX]%</div><div class="stat-label">ZADOWOLONYCH KLIENTÓW</div></div>
   </div>
 </section>
 
